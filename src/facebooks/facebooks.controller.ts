@@ -8,8 +8,6 @@ export class FacebooksController {
   @Post('/orders')
   sendMessageOrderToFacebook(@Body() orders: FacebookOrderDto) {
     // productOrdeInf;
-
-
     return this.facebookService.sendMessageOrderToFacebook(orders);
   }
 }

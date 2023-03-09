@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { FacebookOrderDto } from './dto/facebook-order';
 import { productOrderInf } from 'src/interfaces/facebook';
+import { FacebookOrderReponse } from 'src/classes/facebook/facebookClasses';
 
 @Injectable()
 export class FacebooksService {
   sendMessageOrderToFacebook(orderInfo: FacebookOrderDto) {
-    let _listProductOrder: productOrderInf[] = [];
-
+    let totalPrice = 0;
     orderInfo.productOrder.forEach((item) => {
-      _listProductOrder.push(JSON.parse(item.toString()));
+      totalPrice = totalPrice + item.productPrice * item.amount;
     });
-
-    _listProductOrder.forEach((item) => {
-    
-      console.log('PRICE', item.productPrice);
-    });
-    // console.log("USERNAME",orderInfo.userOrder);
-    // console.log("LIST ",_listProductOrder);
-
-    // return "ORDER FACEBOOK"
+    console.log('ORDER', orderInfo);
+    return new FacebookOrderReponse(
+      orderInfo.userOrder,
+      orderInfo.phoneOrder,
+      orderInfo.addressOrder,
+      totalPrice,
+      orderInfo.productOrder,
+      orderInfo.orderID,
+    );
   }
 }
